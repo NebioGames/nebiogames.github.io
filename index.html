@@ -4,7 +4,17 @@
   <meta charset="utf-8">
   <title>NebioGames</title>
   <style type="text/css">
-    html, body { font-family: "arial", "sans serif"; background-color: #000; color:#eee; }
+    html, body { font-family: "arial", "sans serif"; background-color: #000; color:#eee; line-height: 1.5; color: #fff;  }
+    @keyframes logoappear {
+      0% { transform:translateY(-50px);opacity:.5; }
+      100% { transform: translateY(0);opacity:1; }
+    }
+    a { color: #fff;text-decoration: none; }
+    .appblock { display:flex;justify-content:center;flex-wrap:wrap;gap:30px;  transition:all .2s;padding:15px;border-radius:30px; }
+    .appblock:hover { background-color: #111; }
+    .applogo { display:block;width:160px;border-radius:20px;  }
+    .apptitle { font-size:150%;margin-bottom:10px; }
+    .appdesc { max-width:600px;}
   </style>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -12,11 +22,24 @@
   
   <div style="display:flex;align-items:center;flex-direction:column;width:100%;">
   
-      <img src="nebiogames.png" style="display:block;width:180px;margin:80px 0 20px 0"/>
-      <p>Website under construction!</p>
+      <img src="nebiogames.png" style="display:block;width:180px;margin:20px 0 0 0;animation:logoappear 1.6s ease-out;animation-fill-mode: forwards;transform-origin: bottom center;"/>
+      <p style="text-align:center;color:#aaa;">NebioGames is a single-carbon-lifeform company,<br/>building fun games for smart minds!</p>
 
   </div>
 
+  <div style="margin:60px 20px;display:flex;justify-content:center;">
+  
+    <a class="appblock" href="https://play.google.com/store/apps/details?id=com.nebiogames.solar" target="_blank">
+      <img src="solar.webp" class="applogo"/>
+      <div>
+        <div class="apptitle">Solar roads</div>
+        <div class="appdesc">Take control of a spaceship and fly through the solar system with this beautiful 3D simulation, explore and visualize the realistic positions and orbits of the planets.
+
+          Take the time to relax, listen to deep and calm music while flying through space and meditate on the vastness of the universe.</div>
+      </div>
+    </a>
+
+  </div>
 
 </body>
 </html>
