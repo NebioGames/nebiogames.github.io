@@ -1,0 +1,5 @@
+[
+    { "url": "https://bz-server.onrender.com", "name": "U.S.A" },
+    { "url": "https://bz-server-europe.onrender.com", "name": "Europe" },
+    { "url": "https://todo", "name": "Asia" }
+]

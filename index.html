@@ -5,13 +5,15 @@
   <title>NebioGames</title>
   <style type="text/css">
     html, body { font-family: "arial", "sans serif"; background-color: #000; color:#eee; line-height: 1.5; color: #fff;  }
+    * { box-sizing: border-box; }
     @keyframes logoappear {
       0% { transform:translateY(-50px);opacity:.5; }
       100% { transform: translateY(0);opacity:1; }
     }
     a { color: #fff;text-decoration: none; }
-    .appblock { display:flex;justify-content:center;flex-wrap:wrap;gap:30px;  transition:all .2s;padding:15px;border-radius:30px; }
-    .appblock:hover { background-color: #111; }
+    .appblock { margin:60px 0;display:flex;justify-content:center; width:100%; }
+    .appblock a { display:flex;justify-content:center;flex-wrap:wrap;gap:30px;  transition:all .2s;padding:15px;border-radius:30px;}
+    .appblock a:hover { background-color: #111; }
     .applogo { display:block;width:160px;border-radius:20px;  }
     .apptitle { font-size:150%;margin-bottom:10px; }
     .appdesc { max-width:600px;}
@@ -22,24 +24,90 @@
   
   <div style="display:flex;align-items:center;flex-direction:column;width:100%;">
   
-      <img src="nebiogames.png" style="display:block;width:180px;margin:20px 0 0 0;animation:logoappear 1.6s ease-out;animation-fill-mode: forwards;transform-origin: bottom center;"/>
+      <img src="nebiogames.png" alt="NebioGames" style="display:block;width:240px;margin:20px 0 0 0;animation:logoappear 1.5s ease-out;animation-fill-mode: forwards;transform-origin: bottom center;image-rendering: crisp-edges;"/>
       <p style="text-align:center;color:#aaa;">NebioGames is a single-carbon-lifeform company,<br/>building fun games for smart minds!</p>
 
   </div>
 
-  <div style="margin:60px 20px;display:flex;justify-content:center;">
+  <div class="appblock">
   
-    <a class="appblock" href="https://play.google.com/store/apps/details?id=com.nebiogames.solar" target="_blank">
-      <img src="solar.webp" class="applogo"/>
+    <a  href="https://play.google.com/store/apps/details?id=com.nebiogames.petanque" target="_blank">
+      <img src="petanque.jpg" class="applogo" alt="Bocce 3D Petanque 3D"/>
       <div>
-        <div class="apptitle">Solar roads</div>
-        <div class="appdesc">Take control of a spaceship and fly through the solar system with this beautiful 3D simulation, explore and visualize the realistic positions and orbits of the planets.
-
-          Take the time to relax, listen to deep and calm music while flying through space and meditate on the vastness of the universe.</div>
+        <div class="apptitle">Pétanque 3D</div>
+        <div class="appdesc">Enjoy great games of pétanque with this 3D pétanque simulator.
+          Intuitive controls: slide the viewfinder over your target, select a throw type (plumbed, intermediate, or rolled boule), and 
+          hold the "Power" button until the right power.
+          Four difficulty levels to face an AI, and four types of terrain to vary the fun.
+          It's your turn to play!</div>
       </div>
     </a>
 
   </div>
+  <div class="appblock">
+
+    <a  href="https://play.google.com/store/apps/details?id=com.nebiogames.solar" target="_blank">
+      <img src="solar.webp" class="applogo" alt="Solar Roads"/>
+      <div>
+        <div class="apptitle">Solar roads</div>
+        <div class="appdesc">Take control of a spaceship and fly through the solar system with this beautiful 3D simulation, 
+          explore and visualize the realistic positions and orbits of the planets. Take the time to relax, listen to deep 
+          and calm music while flying through space and meditate on the vastness of the universe.</div>
+      </div>
+    </a>
+
+  </div>
+
+
+  <p style="text-align:center;color:#aaa;">Contact</p>
+  <div style="position:relative;">
+    <div id="con" style="filter:blur(5px);transition:filter 1s;">
+      <a id="elink" style="display:flex;justify-content:center;width:100%;text-decoration:none;">
+        <div id="elinkcontent" class="blurbed">X$X$!#X$!§§8X#§8X!##§8X</div>
+      </a>
+    </div>
+    <a onclick="showcont()" id="revlink" style="cursor:pointer;z-index:10;position:absolute;left:0;top:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;">
+      <div style="background-color: rgba(255,255,255,.5);padding:10px 20px;border-radius:100px;">🔒 Show</div>   
+    </a>
+  </div>
+
+  <div style="height:100px;"></div>
+
+<style>.blurbed { pointer-events:none;opacity:.5; }</style>
+<script>
+  function showcont() {
+
+    document.getElementById("revlink").remove();
+    document.getElementById("con").style.filter = "blur(0)";    
+
+    let elink = document.getElementById("elink");
+    let elinkcontent = document.getElementById("elinkcontent");    
+    startBlurb( elink, elinkcontent, "m" + "ailt" + "o:" + "bnt" + "coli" + "n" + "@" + "gm" + "ail" + ".com");
+
+  }
+  
+  function startBlurb( link, elm, txt ) {
+    let blurbs = "X$!##§8X";
+    let t = "";
+    for(let i = 0; i < 30; i++) t += blurbs[ Math.floor( Math.random() * blurbs.length ) ];
+    let count = 0;
+    let humant = txt.split(":")[1];
+    let interv = setInterval( () => {
+      let index = Math.floor( Math.random() * t.length );
+      t = t.substring(0, index) + ( humant[ index ] || "" ) + t.substring(index + 1);
+      elm.innerText = t;
+      if ( count > 50 ) {
+        clearInterval( interv );
+        elm.innerText = humant;
+        if (link) {
+          link.href = txt.replace(/ /g, "");
+          link.target = "_blank";
+        }
+      }
+      count++;
+    }, 25 );
+  }
+</script>
 
 </body>
 </html>
