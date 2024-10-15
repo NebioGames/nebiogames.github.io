@@ -14,7 +14,7 @@
     .appblock { margin:60px 0;display:flex;justify-content:center; width:100%; }
     .appblock a { display:flex;justify-content:center;flex-wrap:wrap;gap:30px;  transition:all .2s;padding:15px;border-radius:30px;}
     .appblock a:hover { background-color: #111; }
-    .applogo { display:block;width:160px;border-radius:20px;  }
+    .applogo { display:block;width:160px;height:160px;border-radius:20px;  }
     .apptitle { font-size:150%;margin-bottom:10px; }
     .appdesc { max-width:600px;}
   </style>
@@ -24,28 +24,38 @@
   
   <div style="display:flex;align-items:center;flex-direction:column;width:100%;">
   
-      <img src="nebiogames.png" alt="NebioGames" style="display:block;width:240px;margin:20px 0 0 0;animation:logoappear 1.5s ease-out;animation-fill-mode: forwards;transform-origin: bottom center;image-rendering: crisp-edges;"/>
-      <p style="text-align:center;color:#aaa;">NebioGames is a single-carbon-lifeform company,<br/>building fun games for smart minds!</p>
+    <img src="nebiogames.png" alt="NebioGames" class="penguinblok" style="display:block;width:180px;margin:30px 0 20px 0;animation:logoappear 1.5s ease-out;animation-fill-mode: forwards;transform-origin: bottom center;image-rendering: crisp-edges;"/>
+    <p style="text-align:center;color:#aaa;" class="penguinblok">NebioGames is a single-carbon-lifeform company,<br/>building fun games for smart minds!</p>
 
   </div>
 
-  <div class="appblock">
-  
+  <div class="appblock">  
     <a  href="https://play.google.com/store/apps/details?id=com.nebiogames.petanque" target="_blank">
-      <img src="petanque.jpg" class="applogo" alt="Bocce 3D Petanque 3D"/>
+      <img src="petanque.jpg" class="applogo penguinblok" alt="Bocce 3D Petanque 3D"/>
       <div>
-        <div class="apptitle">Pétanque 3D</div>
-        <div class="appdesc">Enjoy great games of pétanque with this 3D pétanque simulator.
+        <div class="apptitle"><span class="penguinblok">Pétanque 3D</span></div>
+        <div class="appdesc penguinblok">Enjoy great games of pétanque with this 3D pétanque simulator.
           Intuitive controls: slide the viewfinder over your target, select a throw type (plumbed, intermediate, or rolled boule), and 
           hold the "Power" button until the right power.
           Four difficulty levels to face an AI, and four types of terrain to vary the fun.
           It's your turn to play!</div>
       </div>
     </a>
-
   </div>
-  <div class="appblock">
 
+  <div class="appblock">  
+    <a  href="https://play.google.com/store/apps/details?id=com.nebiogames.bazooka" target="_blank">
+      <img src="bazooka.png" class="applogo" alt="Bazooka game"/>
+      <div>
+        <div class="apptitle"><span class="penguinblok">Bazooka</span></div>
+        <div class="appdesc penguinblok">Fight with multiple weapons in this 2D simulation, a cross between "Worms" and "Angry Birds".
+          With intuitive controls, this efficient game allows you to take control of one or more teams and face other AI teams. You can also play against your friends on the same device.
+          Let the battle begin! Bazooka, grenade, machine gun, a whole range of weapons are at your disposal. Be the most strategic and the most skillful to win!</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="appblock">
     <a  href="https://play.google.com/store/apps/details?id=com.nebiogames.solar" target="_blank">
       <img src="solar.webp" class="applogo" alt="Solar Roads"/>
       <div>
@@ -55,7 +65,6 @@
           and calm music while flying through space and meditate on the vastness of the universe.</div>
       </div>
     </a>
-
   </div>
 
 
@@ -72,6 +81,127 @@
   </div>
 
   <div style="height:100px;"></div>
+
+  <!-- <div id="penguin" >
+    <img src="bazooka.png" />
+  </div> -->
+  <canvas id="penguin" style="position:absolute;left:0;top:-50px;display:block;height:40px;"></canvas>
+
+<script>
+
+  var sprites = [];
+  var spriteindex = 0;
+  var spritetl = .5;
+  var px = window.innerWidth * ( .25 + Math.random() * .5 ), py = -50, pdir = 0, animlastt = 0, boxes = [];
+  var ctx;
+
+  var penguin = null;
+  var wasonfloor = false;
+
+  function buildBoxes() {
+    boxes = [];
+    let elms = document.querySelectorAll( ".penguinblok" );
+    for( let i = 0; i < elms.length; i++ ) {
+      let r = elms[ i ].getBoundingClientRect();
+      r.top += window.scrollY;
+      boxes.push( r );
+    }
+  }
+  window.onresize = buildBoxes;
+
+  var loadImage = async ( src ) => {
+    return new Promise( ( resolve ) => {
+      let img = document.createElement( "img" );
+      img.onload = () => {
+        resolve( img );
+      };
+      img.src = src;
+    });    
+  }
+  var loadAnim = async () => {
+    let images = [];
+    for( let i = 1; i <= 16; i++ ) {
+      let img = await loadImage( "./penguin/penguin_walk" + i.toString().padStart(4, '0') + ".png" );
+      sprites.push( img );
+    }
+  }
+  
+  setTimeout( async () => {
+    
+    await loadAnim();
+    penguin = document.getElementById( "penguin" );
+    penguin.width = sprites[ 0 ].width;
+    penguin.height = sprites[ 0 ].height;
+    // penguin.style.left = window.clientWidth * .5 + "px";
+    ctx = penguin.getContext( "2d" );
+    ctx.drawImage( sprites[ 9 ], 0, 0 );
+    buildBoxes();
+    requestAnimationFrame( anim );
+
+  }, 1000 );
+
+  
+  function anim( t ) {
+
+    let dt = t - animlastt;
+    if ( dt > 100 ) dt = 100;
+    dt *= .001;
+
+    let f = false;
+    let ty = py + 40;
+    let tx = px + 20;
+    for( let i = 0; i < boxes.length; i++ ) {
+      let b = boxes[ i ];
+      if ( b.y <= ty && b.x < tx && b.x + b.width > tx ) {
+        f = true;
+        break;
+      }
+    }
+
+    if ( wasonfloor ) {
+      px += pdir * dt * 5;
+    } else {
+      py += dt * 5;
+    }
+
+    if ( f ) {
+      if ( !wasonfloor ) {
+        pdir = Math.random() < .5 ? -1 : 1;
+        penguin.style.transform = pdir < 0 ? "scale(-1,1)" : "";
+      }
+      px += pdir * dt * 2;
+      wasonfloor = true;
+    } else {
+      py += dt * 4;
+      if ( wasonfloor ) {
+        ctx.clearRect( 0, 0, 256, 256 );
+        ctx.drawImage( sprites[ 9 ], 0, 0 );
+      }
+      wasonfloor = false;
+    }
+    
+    penguin.style.left = px + "px";
+    penguin.style.top = py + "px";
+
+    if ( f ) {
+      spritetl -= dt;
+      if ( spritetl < 0 ) {
+        spritetl = .25;
+        spriteindex++;
+        if ( spriteindex >= sprites.length ) spriteindex= 0;
+        ctx.clearRect( 0, 0, 256, 256 );
+        ctx.drawImage( sprites[ spriteindex ], 0, 0 );  
+      }
+    }
+    if ( py > document.body.offsetHeight ) {
+      px = window.innerWidth * ( .25 + Math.random() * .5 );
+      py = -50;
+    }
+    
+    requestAnimationFrame( anim );
+
+  }
+</script>
 
 <style>.blurbed { pointer-events:none;opacity:.5; }</style>
 <script>
