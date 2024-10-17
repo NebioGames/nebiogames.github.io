@@ -2,5 +2,5 @@
     { "url": "https://bz-server.onrender.com", "name": "U.S.A" },
     { "url": "https://bz-server-europe.onrender.com", "name": "Europe" },
     { "url": "https://bz-server-asia.onrender.com", "name": "Asia" },
-    { "url": "https://localhost:10000", "name": "LOCALDEV" }
+    { "url": "http://localhost:10000", "name": "LOCALDEV" }
 ]
